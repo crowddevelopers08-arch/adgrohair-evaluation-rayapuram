@@ -13,6 +13,28 @@ export const metadata: Metadata = {
   title: "Hair Evaluation Test | Adglow Rajaji",
   description:
     "Take the hair evaluation test to understand your hair and scalp concerns.",
+
+  icons: {
+    icon: [
+      {
+        url: asset("adglow-rajaji.png"),
+        sizes: "any",
+        type: "image/png",
+      },
+      {
+        url: asset("adglow-rajaji.png"),
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: asset("adglow-rajaji.png"),
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
 };
 export default function RootLayout({
   children,
