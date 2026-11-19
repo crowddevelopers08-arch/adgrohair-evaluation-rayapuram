@@ -1,0 +1,96 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --color-brand: #c91b22;
+  --color-brand-accent: #ed1f24;
+  --color-brand-dark: #231f20;
+  --color-brand-soft: #fff4f3;
+  --color-brand-border: #efd9d7;
+  --background-image-brand-gradient: linear-gradient(-90deg, #a8151c, #d82027);
+  --animate-enter: enter 0.4s both;
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-nunito), Arial, sans-serif;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+    border-width: 0;
+  }
+  button,
+  input {
+    font: inherit;
+  }
+  button,
+  a,
+  input,
+  label {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    cursor: pointer;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    border: 0;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  img {
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  legend {
+    padding: 0;
+    width: 100%;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  label:has(input:focus-visible) {
+    outline: 3px solid #c91b22;
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
