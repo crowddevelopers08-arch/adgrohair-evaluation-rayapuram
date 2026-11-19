@@ -4,6 +4,7 @@ import type { Gender } from "@/lib/evaluation";
 import { genderMedia } from "@/lib/gender-media";
 import { ScoreSummary } from "./score-summary";
 import { TreatmentResults } from "./treatment-results";
+import { asset } from "@/lib/assets";
 
 export function ResultsStep({
   name,
@@ -42,11 +43,11 @@ export function ResultsStep({
           >
             <img
               className="treatment-photo w-full"
-              src={`/assets/${genderMedia[gender].portrait}`}
+              src={asset(genderMedia[gender].portrait)}
               alt={`${genderMedia[gender].portraitAlt} - ${treatment.label}`}
             />
             <div className="treatment-logo bg-[#efefef] p-2.5 [&_img]:h-10 [&_img]:w-auto">
-              <img src={`/assets/${treatment.logo}`} alt={treatment.label} />
+              <img src={asset(treatment.logo)} alt={treatment.label} />
             </div>
             <p>
               {treatment.result}

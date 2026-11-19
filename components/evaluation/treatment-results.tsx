@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Gender } from "@/lib/evaluation";
 import { genderMedia } from "@/lib/gender-media";
+import { asset } from "@/lib/assets";
 
 export function TreatmentResults({ gender }: { gender: Gender }) {
   return (
@@ -18,7 +19,7 @@ export function TreatmentResults({ gender }: { gender: Gender }) {
             {(["before", "after"] as const).map((stage) => (
               <div key={stage} className="min-w-0 bg-white">
                 <img
-                  src={`/assets/${pair[stage]}`}
+                  src={asset(pair[stage])}
                   alt={`${gender === "male" ? "Male" : "Female"} hair treatment example ${index + 1}, ${stage} treatment`}
                   className="block h-auto w-full object-contain"
                   width="587"

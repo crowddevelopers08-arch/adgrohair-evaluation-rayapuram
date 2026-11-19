@@ -1,3 +1,4 @@
+import { asset } from "@/lib/assets";
 export function BrandLogo() {
   return (
     <svg
@@ -8,7 +9,7 @@ export function BrandLogo() {
     >
       <title>Adglow Rajaji</title>
       {/* Display the supplied transparent PNG without its empty outer margins. */}
-      <image href="/adglow-rajaji.png" width="1536" height="864" />
+      <image href={asset("adglow-rajaji.png")} width="1536" height="864" />
     </svg>
   );
 }

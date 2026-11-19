@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { asset } from "@/lib/assets";
 
 const nunito = localFont({
-  src: "../public/assets/nunito-variable.ttf",
+  src: "./fonts/nunito-variable.ttf",
   variable: "--font-nunito",
   weight: "200 1000",
   display: "swap",

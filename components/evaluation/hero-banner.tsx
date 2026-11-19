@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { asset } from "@/lib/assets";
 export function HeroBanner() {
   return (
     <section
@@ -25,7 +26,7 @@ export function HeroBanner() {
       </div>
       <div className="hero-model w-1/2 overflow-hidden [background:linear-gradient(135deg,transparent_0%,transparent_34%,#ed1f24_34%,#c91b22_70%,#f4b0ac_70%,#f4b0ac_87%,transparent_87%)] [&_img]:h-[479px] [&_img]:w-[426px] [&_img]:object-contain min-[1200px]:pl-2 max-[768px]:w-full max-[768px]:text-center max-[768px]:[&_img]:h-auto max-[768px]:[&_img]:w-[250px] max-[768px]:[&_img]:max-w-[250px]">
         <img
-          src="/hair-evaluvation-2.png"
+          src={asset("hair-evaluvation-2.png")}
           alt="Doctor in a white coat for hair evaluation."
           className="origin-center scale-[1.1]"
           width="426"

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ages, Profile } from "@/lib/evaluation";
 import { ActionButton } from "./action-button";
+import { asset } from "@/lib/assets";
 export function DemographicsStep({
   profile,
   onChange,
@@ -66,7 +67,7 @@ export function DemographicsStep({
                 onChange={() => onChange({ ...profile, gender })}
               />
               <span className="gender-picture relative block [&_img]:size-[150px] [&_img]:object-contain [&_img]:[filter:grayscale(1)] [&_img]:[transform:scale(0.85)] [&_img]:[transition:transform_0.4s] max-[768px]:[&_img]:size-[125px]">
-                <img src={`/assets/gender-${i + 1}.webp`} alt="" />
+                <img src={asset(`gender-${i + 1}.webp`)} alt="" />
                 <span
                   className="gender-check absolute top-0 right-0 hidden size-10 rounded-full bg-brand-dark leading-10 text-white"
                   aria-hidden="true"

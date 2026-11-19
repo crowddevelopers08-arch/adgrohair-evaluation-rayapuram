@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Question } from "@/lib/evaluation";
 import { ActionButton } from "./action-button";
+import { asset } from "@/lib/assets";
 export function QuestionStep({
   question,
   index,
@@ -82,7 +83,7 @@ export function QuestionStep({
             {option.image && (
               <span className="option-image [.circle_&]:mx-auto [.circle_&]:my-0 [.circle_&]:flex [.circle_&]:size-[100px] [.circle_&]:items-center [.circle_&]:justify-center [.circle_&]:rounded-full [.circle_&]:border-2 [.circle_&]:border-solid [.circle_&]:border-[#656565] [.circle_&]:bg-white [.circle_&]:p-2.5 [.portrait_&]:mx-auto [.portrait_&]:mt-0 [.portrait_&]:mb-6 [.portrait_&]:flex [.portrait_&]:size-[100px] [.portrait_&]:items-center [.portrait_&]:justify-center [.portrait_&]:rounded-full [.portrait_&]:border-2 [.portrait_&]:border-solid [.portrait_&]:border-[#656565] [.portrait_&]:bg-white [.portrait_&]:p-2.5 [.circle_.selected_&]:border-brand [.circle_.selected_&]:bg-brand min-[769px]:[.circle_.answer-option:hover_&]:border-brand min-[769px]:[.circle_.answer-option:hover_&]:bg-brand [.circle_&_img]:max-h-full [.circle_&_img]:max-w-full [.circle_&_img]:object-contain [.portrait_&_img]:max-h-full [.portrait_&_img]:max-w-full [.portrait_&_img]:object-contain [.comb_&]:mb-4 [.comb_&]:flex [.comb_&]:h-[175px] [.comb_&]:items-end [.comb_&]:justify-center [.comb_&_img]:max-h-[175px] [.comb_&_img]:object-contain max-[768px]:[.comb_&]:m-0 max-[768px]:[.comb_&]:h-[100px] max-[768px]:[.comb_&]:max-w-[150px] max-[768px]:[.comb_&]:flex-1 max-[768px]:[.comb_&_img]:max-h-[100px] max-[768px]:[.portrait_&]:m-0">
                 <img
-                  src={`/assets/${option.image}`}
+                  src={asset(option.image)}
                   alt={question.appearance === "circle" ? option.label : ""}
                 />
               </span>
@@ -91,7 +92,7 @@ export function QuestionStep({
               className={
                 question.appearance === "circle"
                   ? "sr-only"
-                  : "option-label relative block min-h-[60px] rounded-[50px] border border-solid border-[#565656] bg-white p-[14px] text-[20px] leading-[1.5] font-semibold [.selected_&]:border-brand [.selected_&]:bg-brand-gradient [.selected_&]:text-white [.multiple_&]:pr-10 [.answer-options:not(.multiple)_.selected_&]:after:absolute [.answer-options:not(.multiple)_.selected_&]:after:right-5 [.answer-options:not(.multiple)_.selected_&]:after:top-1/2 [.answer-options:not(.multiple)_.selected_&]:after:h-5 [.answer-options:not(.multiple)_.selected_&]:after:w-[14px] [.answer-options:not(.multiple)_.selected_&]:after:[transform:translateY(-50%)] [.answer-options:not(.multiple)_.selected_&]:after:[background:url('/assets/lock-icon.webp')_center/contain_no-repeat] [.answer-options:not(.multiple)_.selected_&]:after:brightness-50 [.answer-options:not(.multiple)_.selected_&]:after:content-[''] max-[768px]:min-h-[42px] max-[768px]:p-2 max-[768px]:text-[16px] max-[768px]:[.comb_&]:flex-1 max-[768px]:[.portrait_&]:flex-1"
+                  : "option-label relative block min-h-[60px] rounded-[50px] border border-solid border-[#565656] bg-white p-[14px] text-[20px] leading-[1.5] font-semibold [.selected_&]:border-brand [.selected_&]:bg-brand-gradient [.selected_&]:text-white [.multiple_&]:pr-10 [.answer-options:not(.multiple)_.selected_&]:after:absolute [.answer-options:not(.multiple)_.selected_&]:after:right-5 [.answer-options:not(.multiple)_.selected_&]:after:top-1/2 [.answer-options:not(.multiple)_.selected_&]:after:h-5 [.answer-options:not(.multiple)_.selected_&]:after:w-[14px] [.answer-options:not(.multiple)_.selected_&]:after:[transform:translateY(-50%)] [.answer-options:not(.multiple)_.selected_&]:after:[background:url('https://res.cloudinary.com/ms16lpja/image/upload/v1795092011/lock-icon.webp')_center/contain_no-repeat] [.answer-options:not(.multiple)_.selected_&]:after:brightness-50 [.answer-options:not(.multiple)_.selected_&]:after:content-[''] max-[768px]:min-h-[42px] max-[768px]:p-2 max-[768px]:text-[16px] max-[768px]:[.comb_&]:flex-1 max-[768px]:[.portrait_&]:flex-1"
               }
             >
               {option.label}

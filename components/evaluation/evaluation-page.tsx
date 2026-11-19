@@ -35,7 +35,27 @@ export function EvaluationPage() {
   const next = () => {
     if (index === 9) {
       if (!profile.gender) return;
-      setResult(calculateHairScore(profile.gender, answers, medicalDetail));
+      const evaluation = calculateHairScore(profile.gender, answers, medicalDetail);
+      setResult(evaluation);
+      void fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify({
+          source: "Hair Evaluation Test",
+          name: profile.name,
+          phone: profile.mobile,
+          email: profile.email,
+          age: profile.age,
+          gender: profile.gender,
+          concern: `Hair evaluation score ${evaluation.score}/100 (${evaluation.band})`,
+          answers,
+          medicalDetail,
+          score: evaluation.score,
+          band: evaluation.band,
+          pageUrl: window.location.href,
+        }),
+      }).catch(() => {});
       setStage("results");
       formRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
     } else {
