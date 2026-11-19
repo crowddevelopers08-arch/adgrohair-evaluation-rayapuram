@@ -145,6 +145,7 @@ async function pushToTeleCRM(body: SubmissionBody): Promise<TelecrmResponse | nu
   const fields: Record<string, string> = { phone, name: body.name };
   if (body.email) fields.email = body.email;
 
+  const qa = readableAnswers(body.gender, body.answers).filter((item) => item.answers.length);
   const details = [
     `Form Name: ${body.source || 'Website'}`,
     `Name: ${body.name || 'Not specified'}`,
@@ -155,6 +156,8 @@ async function pushToTeleCRM(body: SubmissionBody): Promise<TelecrmResponse | nu
     `Gender: ${body.gender || 'Not specified'}`,
     `Score: ${body.score ?? 'Not specified'}`,
     `URL: ${body.pageUrl || 'Not specified'}`,
+    ...qa.map((item, i) => `Q${i + 1}. ${item.question} - ${item.answers.join(', ')}`),
+    ...(body.medicalDetail ? [`Medical condition details: ${body.medicalDetail}`] : []),
   ].join(' | ');
 
   const payload = {
@@ -172,7 +175,6 @@ async function pushToTeleCRM(body: SubmissionBody): Promise<TelecrmResponse | nu
     ],
   };
 
-  const qa = readableAnswers(body.gender, body.answers).filter((item) => item.answers.length);
   qa.forEach((item, i) => {
     payload.actions.push({
       type: 'SYSTEM_NOTE',
