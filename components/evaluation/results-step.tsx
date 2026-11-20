@@ -22,7 +22,7 @@ export function ResultsStep({
     >
       <ScoreSummary name={name} result={result} />
       <h2 id="international-treatments-heading">International Hair Treatments</h2>
-      <TreatmentCarousel gender={gender} />
+      <TreatmentCarousel />
       <h2>Our Treatment Results</h2>
       <TreatmentResults gender={gender} />
       <div className="result-actions mt-8 mb-4 flex flex-wrap items-center justify-center gap-4 max-[768px]:flex-col">

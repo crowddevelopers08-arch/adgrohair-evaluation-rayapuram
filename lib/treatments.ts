@@ -6,7 +6,7 @@ export const hairTreatments = [
     results: "Around 2–3 sessions",
   },
   {
-    name: "PRP",
+    name: "Plasma Rich in Growth Factors",
     title: "Support Natural Hair Growth",
     description: "Uses your own platelet-rich plasma to support hair follicles.",
     results: "Around 3–4 sessions",

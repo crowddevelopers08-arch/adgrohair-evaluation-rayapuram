@@ -1,20 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Gender } from "@/lib/evaluation";
-import { genderMedia } from "@/lib/gender-media";
-import { asset } from "@/lib/assets";
+import { TreatmentIllustration } from "./treatment-illustration";
 import { hairTreatments } from "@/lib/treatments";
 
 const treatments = hairTreatments;
 
 const INTERVAL = 3500;
 
-export function TreatmentCarousel({ gender }: { gender: Gender }) {
+export function TreatmentCarousel() {
   const track = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
   const [active, setActive] = useState(0);
-  const media = genderMedia[gender];
 
   const cardStep = () => {
     const first = track.current?.firstElementChild as HTMLElement | null;
@@ -71,11 +67,7 @@ export function TreatmentCarousel({ gender }: { gender: Gender }) {
             key={t.name}
             className="w-[calc(33.333%-17px)] min-w-[280px] shrink-0 snap-start border-4 border-solid border-white bg-[#f5f5f5] p-5 max-[768px]:w-[85%]"
           >
-            <img
-              className="w-full"
-              src={asset(media.portrait)}
-              alt={`${media.portraitAlt} - ${t.name}`}
-            />
+            <TreatmentIllustration name={t.name} />
             <div className="bg-[#efefef] px-2.5 py-3 text-[22px] font-bold text-brand-dark">
               {t.name}
             </div>
