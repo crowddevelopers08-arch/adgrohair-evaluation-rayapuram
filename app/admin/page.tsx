@@ -3,7 +3,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { readableAnswers } from "@/lib/answers";
+import { consultationDetails, readableAnswers } from "@/lib/answers";
 import { BrandLogo } from "@/components/evaluation/brand-logo";
 import { LeadDetails, type LeadView } from "./lead-details";
 
@@ -74,7 +74,8 @@ function buildView(
   },
   date: string,
 ): LeadView {
-  const qa = readableAnswers(r.gender, r.answers);
+  const consultation = consultationDetails(r.answers);
+  const qa = consultation ? [] : readableAnswers(r.gender, r.answers);
   return {
     name: r.name,
     date,
@@ -94,6 +95,7 @@ function buildView(
       { label: "Form", value: r.source },
       { label: "TeleCRM", value: r.telecrmStatus || "-" },
       { label: "Page URL", value: r.pageUrl || "-" },
+      ...(consultation ?? []),
     ],
     qa,
     medicalDetail: r.medicalDetail || undefined,

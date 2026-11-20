@@ -1,8 +1,11 @@
 const BASE = "https://res.cloudinary.com/ms16lpja";
 
-// Every image/svg used by the site, hosted on Cloudinary.
+// Shared image URLs: existing site assets use Cloudinary; consultation artwork
+// is served locally so the reference CDN's rate limits cannot blank the popup.
 // Keys are the original file names; use asset("name.webp") to get the URL.
 export const ASSET_URLS: Record<string, string> = {
+  "consultation-offer.png": "/consultation/offer.png",
+  "consultation-badges.png": "/consultation/badges.png",
   "hair-evaluvation-2.png": `${BASE}/image/upload/v1795092034/hair-evaluvation-2.png`,
   "adglow-rajaji.png": `${BASE}/image/upload/v1795092033/adglow-rajaji.png`,
   "stm.svg": `${BASE}/image/upload/v1795092013/stm.svg`,

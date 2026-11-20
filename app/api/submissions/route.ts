@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { readableAnswers } from '@/lib/answers';
+import { consultationDetails, readableAnswers } from '@/lib/answers';
 
 const HEADERS = [
   'Timestamp',
@@ -146,6 +146,7 @@ async function pushToTeleCRM(body: SubmissionBody): Promise<TelecrmResponse | nu
   if (body.email) fields.email = body.email;
 
   const qa = readableAnswers(body.gender, body.answers).filter((item) => item.answers.length);
+  const consultation = consultationDetails(body.answers) ?? [];
   const details = [
     `Form Name: ${body.source || 'Website'}`,
     `Name: ${body.name || 'Not specified'}`,
@@ -156,6 +157,7 @@ async function pushToTeleCRM(body: SubmissionBody): Promise<TelecrmResponse | nu
     `Gender: ${body.gender || 'Not specified'}`,
     `Score: ${body.score ?? 'Not specified'}`,
     `URL: ${body.pageUrl || 'Not specified'}`,
+    ...consultation.map((item) => `${item.label}: ${item.value}`),
     ...qa.map((item, i) => `Q${i + 1}. ${item.question} - ${item.answers.join(', ')}`),
     ...(body.medicalDetail ? [`Medical condition details: ${body.medicalDetail}`] : []),
   ].join(' | ');
@@ -175,6 +177,9 @@ async function pushToTeleCRM(body: SubmissionBody): Promise<TelecrmResponse | nu
     ],
   };
 
+  consultation.forEach((item) => {
+    payload.actions.push({ type: 'SYSTEM_NOTE', text: `${item.label}: ${item.value}` });
+  });
   qa.forEach((item, i) => {
     payload.actions.push({
       type: 'SYSTEM_NOTE',

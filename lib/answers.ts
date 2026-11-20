@@ -14,3 +14,20 @@ export function readableAnswers(gender: string | null | undefined, answers: unkn
     ),
   }));
 }
+
+/** Details captured by the "Book Your Consultation" form (stored in answers.consultation). */
+export function consultationDetails(answers: unknown) {
+  const c =
+    answers && typeof answers === "object"
+      ? (answers as Record<string, unknown>).consultation
+      : null;
+  if (!c || typeof c !== "object") return null;
+  const v = c as Record<string, unknown>;
+  const text = (x: unknown) => (typeof x === "string" ? x : "");
+  return [
+    { label: "Concern", value: text(v.concern) },
+    { label: "Pincode", value: text(v.pincode) },
+    { label: "Hair loss stage", value: text(v.hairLossStageLabel) || text(v.hairLossStage) },
+    { label: "Opened from", value: text(v.trigger) },
+  ].filter((item) => item.value);
+}

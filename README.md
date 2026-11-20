@@ -43,3 +43,13 @@ The header uses the supplied `public/adglow-rajaji.png` directly. `BrandLogo` us
 ## Typography
 
 The whole application uses the locally hosted Nunito variable font (weights 200-1000). `next/font/local` applies it directly to the body; Tailwind `font-sans` uses the same font variable. Headings and answer options use sentence case, with increased paragraph leading for comfortable reading. Work Sans and Inter are no longer loaded. The font license is included in `public/assets/nunito-OFL.txt`.
+
+## Consultation popup
+
+The result-page Book Your Consultation button opens the accessible consultation dialog. Header and result-page Call Now links dial +91 73580 34097 directly and do not open the form. Evaluation Next, Continue, Submit and Previous keep their existing behavior. The dialog is opened only by these CTAs, with no automatic opening timer. A completed profile pre-fills name and phone.
+
+`components/consultation/` contains the provider/trigger, dialog and five-stage artwork. The reference [consultation design](https://www.adgrohairroyapuram.in/) supplied the exact offer image, badges and stage illustrations. The reference image host returned HTTP 429 during verification, so popup images are served from `public/consultation/`. The five original stage illustrations use SVG viewports into a verified local reference-render atlas to avoid the throttled CDN. Outfit is self-hosted only for the popup, with its license in `app/fonts/outfit-OFL.txt`; the rest of the site retains Nunito.
+
+The popup validates name, Indian mobile number, concern, six-digit pincode and stage, then posts to the existing `/api/submissions` endpoint. Concern, pincode, stage and trigger source are included in the saved concern text and structured consultation answers. Success is shown only when at least one configured destination confirms the save (database, Sheets or TeleCRM). Failed/unconfirmed saves offer retry and the existing clinic phone link.
+
+Run `node scripts/verify-consultation.cjs` with Playwright available. Optional environment variables: `PLAYWRIGHT_MODULE`, `CHROMIUM_PATH`, `BASE_URL`. Checks cover desktop/mobile artwork, validation, failed and confirmed saves, loading, close/Escape/backdrop interactions, focus restoration, profile prefill, result CTAs and preservation of all ten evaluation questions. Every submission is mocked; the checks do not create real leads.

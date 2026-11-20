@@ -14,6 +14,7 @@ import { QuestionStep } from "./question-step";
 import { ResultsStep } from "./results-step";
 import { InformationSections } from "./information-sections";
 import { EvaluationBackdrop } from "./evaluation-backdrop";
+import { ConsultationProvider } from "../consultation/consultation-provider";
 export function EvaluationPage() {
   const [stage, setStage] = useState<
     "contact" | "demographics" | "questions" | "results"
@@ -35,7 +36,11 @@ export function EvaluationPage() {
   const next = () => {
     if (index === 9) {
       if (!profile.gender) return;
-      const evaluation = calculateHairScore(profile.gender, answers, medicalDetail);
+      const evaluation = calculateHairScore(
+        profile.gender,
+        answers,
+        medicalDetail,
+      );
       setResult(evaluation);
       void fetch("/api/submissions", {
         method: "POST",
@@ -87,7 +92,7 @@ export function EvaluationPage() {
   };
   const started = stage === "questions" || stage === "results";
   return (
-    <>
+    <ConsultationProvider profile={profile}>
       <SiteHeader />
       <main>
         {!started && <HeroBanner />}
@@ -173,6 +178,6 @@ export function EvaluationPage() {
           </div>
         </div>
       </main>
-    </>
+    </ConsultationProvider>
   );
 }

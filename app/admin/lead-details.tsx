@@ -52,6 +52,8 @@ export function LeadDetails({ lead }: { lead: LeadView }) {
             ))}
           </dl>
 
+          {lead.qa.length > 0 && (
+            <>
           <h3 className="mt-6 text-xs font-bold tracking-wide text-brand uppercase">
             Questionnaire answers
           </h3>
@@ -67,6 +69,8 @@ export function LeadDetails({ lead }: { lead: LeadView }) {
               </li>
             ))}
           </ol>
+            </>
+          )}
           {lead.medicalDetail && (
             <p className="mt-3 rounded-xl bg-brand-soft p-3 text-sm">
               <b>Medical condition details:</b> {lead.medicalDetail}
