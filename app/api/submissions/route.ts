@@ -271,8 +271,9 @@ export async function POST(req: NextRequest) {
     const telecrmResult = await pushToTeleCRM(body);
     const telecrmStatus = getTelecrmStatus(telecrmResult);
     let dbStatus = 'saved';
+    let submissionId: string | null = null;
     try {
-      await prisma.submission.create({
+      const created = await prisma.submission.create({
         data: {
           source: body.source,
           name: body.name,
@@ -289,6 +290,7 @@ export async function POST(req: NextRequest) {
           telecrmStatus,
         },
       });
+      submissionId = created.id;
     } catch (dbErr) {
       dbStatus = 'failed';
       console.error('Database save failed:', dbErr);
@@ -304,13 +306,27 @@ export async function POST(req: NextRequest) {
       console.warn('Google Apps Script sync skipped:', excelError);
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
+      id: submissionId,
       database: dbStatus,
       excel: excelStatus,
       excelError,
       telecrm: telecrmResult,
     });
+
+    if (submissionId) {
+      // Evaluation leads -> /score-card, consultation leads -> /thank-you.
+      // The id stays in a cookie so the page address is clean.
+      response.cookies.set(body.score !== null ? 'score_id' : 'thank_you_id', submissionId, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 60 * 24,
+      });
+    }
+    return response;
   } catch (err) {
     console.error('Submission error:', err);
     return NextResponse.json({ success: false, error: 'Server error' }, { status: 500 });

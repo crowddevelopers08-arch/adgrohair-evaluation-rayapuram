@@ -68,6 +68,11 @@ export function calculateHairScore(
     points(CONCERN_POINTS.medical, 7);
   const score = Math.max(0, Math.min(100, Math.round(100 - concerns)));
 
+  return resultForScore(score);
+}
+
+/** Score band + message for a given score (also used by the saved score page). */
+export function resultForScore(score: number): HairEvaluationResult {
   if (score < 40) {
     return {
       score,

@@ -124,7 +124,9 @@ export function ConsultationDialog({
         result.telecrm?.synced === true;
       if (!response.ok || !result.success || !saved)
         throw new Error("Submission was not confirmed.");
-      setStatus("success");
+      // Submitted: reload into the dedicated thank-you page.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- full reload is intended
+      window.location.assign("/thank-you");
     } catch {
       if (!dialog.current?.open) return;
       setFailure(

@@ -25,6 +25,7 @@ export function EvaluationPage() {
   const [medicalDetail, setMedicalDetail] = useState("");
   const [result, setResult] = useState<HairEvaluationResult | null>(null);
   const [transitioning, setTransitioning] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const transitionLock = useRef(false);
   const formRef = useRef<HTMLDivElement>(null);
   const questions = getQuestions(profile.gender || "male");
@@ -33,19 +34,22 @@ export function EvaluationPage() {
     requestAnimationFrame(() =>
       document.getElementById("question-title")?.focus({ preventScroll: true }),
     );
-  const next = () => {
-    if (index === 9) {
-      if (!profile.gender) return;
-      const evaluation = calculateHairScore(
-        profile.gender,
-        answers,
-        medicalDetail,
-      );
-      setResult(evaluation);
-      void fetch("/api/submissions", {
+  const finish = async () => {
+    if (!profile.gender || submitting) return;
+    const evaluation = calculateHairScore(
+      profile.gender,
+      answers,
+      medicalDetail,
+    );
+    setSubmitting(true);
+    setTransitioning(true);
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 30000);
+    try {
+      const response = await fetch("/api/submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        keepalive: true,
+        signal: controller.signal,
         body: JSON.stringify({
           source: "Hair Evaluation Test",
           name: profile.name,
@@ -60,9 +64,29 @@ export function EvaluationPage() {
           band: evaluation.band,
           pageUrl: window.location.href,
         }),
-      }).catch(() => {});
-      setStage("results");
-      formRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+      });
+      const data = await response.json();
+      if (data.success && data.id) {
+        // Submitted: reload into the dedicated score page.
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- full reload is intended
+        window.location.assign("/score-card");
+        return;
+      }
+    } catch {
+      // fall through to the on-page score below
+    } finally {
+      window.clearTimeout(timeout);
+    }
+    // Submission could not be confirmed: still show the score on this page.
+    setResult(evaluation);
+    setStage("results");
+    setSubmitting(false);
+    setTransitioning(false);
+    formRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+  const next = () => {
+    if (index === 9) {
+      void finish();
     } else {
       setIndex((value) => value + 1);
       focusQuestion();
@@ -94,6 +118,14 @@ export function EvaluationPage() {
   return (
     <ConsultationProvider profile={profile}>
       <SiteHeader />
+      {submitting && (
+        <div
+          role="status"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-white/85 text-[18px] font-semibold text-brand"
+        >
+          Submitting your details...
+        </div>
+      )}
       <main>
         {!started && <HeroBanner />}
         <div
